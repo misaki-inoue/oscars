@@ -25,8 +25,10 @@ def find_top(category, top_n):
         .sort_values(by="awards", ascending=False).head(top_n)
     return top_cat
 
+oscars[oscars['category']=="ACTOR"]['year_ceremony'].max()
+oscars[oscars['category']=="ACTOR IN A LEADING ROLE"]['year_ceremony'].min()
 
-top_actors_lead = find_top("ACTOR IN A LEADING ROLE",5) # IN A LEADING ROLE started from 1976
+top_actors_lead = find_top("ACTOR IN A LEADING ROLE",5) # IN A LEADING ROLE started from 1977
 top_actress_lead = find_top("ACTRESS IN A LEADING ROLE",5)
 top_actors = find_top("ACTOR", 5)
 top_actress = find_top("ACTRESS",5)
@@ -84,6 +86,7 @@ for i in type_colors:
 fig, ax = plt.subplots()
 for index, row in top.iterrows():
     plt.barh(y=row['name'], width=row['duration'], left=row['first'] , color=type_colors[row['type']])
+plt.gca().invert_yaxis()
 plt.title('Time between first and last Oscar nomination')
 ax.legend(handles=patches, labels=type_colors.keys(), fontsize=11)
 plt.show()
@@ -150,12 +153,12 @@ revenue['adjusted'] = revenue['adjusted'] / 1e9
 fig, axes = plt.subplots(1, 2, figsize=(9,5))
 
 sns.boxplot(data=score, x='winner', y='score', ax=axes[0])
-axes[0].set_title('IMDb Score of Nominees and Awardees')
+axes[0].set_title('IMDb Score of Nominees and Winners')
 axes[0].set_xlabel('Awarded')
 axes[0].set_ylabel('IMDb Score')
 
 sns.boxplot(data=revenue, x='winner', y='adjusted', ax=axes[1])
-axes[1].set_title('Adjusted Gross Revenue of \n Nominees and Awardees')
+axes[1].set_title('Adjusted Gross Revenue of \n Nominees and Winners')
 axes[1].set_xlabel('Awarded')
 axes[1].set_ylabel('Adjusted Gross Revenue (Billion$)')
 axes[1].ticklabel_format(axis='y', useOffset=False)
